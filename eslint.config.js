@@ -37,7 +37,7 @@ export default [
       'react/jsx-no-target-blank': 'off',
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       'prettier/prettier': ['error'],
-      'max-len': 80,
+      'max-len': ['error', { code: 80 }],
     },
   },
 ];
