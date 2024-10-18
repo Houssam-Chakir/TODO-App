@@ -3,7 +3,7 @@ import { Tabs } from "./components/Tabs";
 import { TodoInput } from "./components/TodoInput";
 import { TodoList } from "./components/TodoList";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 function App() {
   // const todos = [
   // { input: 'Hello! Add your first todo!', complete: true },
@@ -19,6 +19,7 @@ function App() {
   function handleAddTodo(newTodo) {
     const newTodoList = [...todos, { input: newTodo, complete: false }];
     setTodos(newTodoList);
+    handleSaveTodos(newTodoList)
   }
   function handleCompleteTodo(index) {
     const newTodoList = [...todos];
@@ -28,13 +29,28 @@ function App() {
       }
     });
     setTodos(newTodoList);
+    handleSaveTodos(newTodoList)
   }
   function handleDeleteTodo(index) {
     let newTodoList = todos.filter((todo, todoIndex) => {
       return todoIndex !== index;
     });
     setTodos(newTodoList);
+    handleSaveTodos(newTodoList)
   }
+
+  function handleSaveTodos(currentTodos) {
+    localStorage.setItem("todo-app-react", JSON.stringify({ todos: currentTodos }));
+  }
+
+  useEffect(() => {
+    if (!localStorage || !localStorage.getItem("todo-app-react")) {
+      return;
+    }
+    console.log('localstorage');
+    let db = JSON.parse(localStorage.getItem("todo-app-react"));
+    setTodos(db.todos);
+  }, []);
 
   return (
     <>
